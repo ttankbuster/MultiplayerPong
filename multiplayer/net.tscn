@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d12gljh6avkyf"]
+
+[ext_resource type="Script" path="res://multiplayer/net.gd" id="1_vgud0"]
+
+[node name="net" type="Node"]
+script = ExtResource("1_vgud0")
