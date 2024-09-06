@@ -1,0 +1,159 @@
+[gd_scene load_steps=8 format=3 uid="uid://b83b6ed2xssbv"]
+
+[ext_resource type="Script" path="res://game/game.gd" id="1_dhdae"]
+[ext_resource type="Script" path="res://game/ui.gd" id="1_k52ik"]
+[ext_resource type="Script" path="res://game/bat.gd" id="2_qmjbk"]
+[ext_resource type="Script" path="res://game/ball.gd" id="4_b88d5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkesr"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_838rd"]
+size = Vector2(20, 194)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qqa34"]
+size = Vector2(25, 25)
+
+[node name="game" type="Node2D"]
+script = ExtResource("1_dhdae")
+
+[node name="bg" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.142514, 0.142514, 0.142514, 1)
+
+[node name="top_wall" type="StaticBody2D" parent="."]
+position = Vector2(0, 20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="top_wall"]
+position = Vector2(576, 0)
+shape = SubResource("RectangleShape2D_nkesr")
+
+[node name="line" type="Line2D" parent="top_wall"]
+points = PackedVector2Array(0, 20, 1152, 20)
+width = 1.0
+default_color = Color(0.259813, 0.259813, 0.259813, 1)
+
+[node name="bottom_wall" type="StaticBody2D" parent="."]
+position = Vector2(0, 628)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bottom_wall"]
+position = Vector2(576, 0)
+shape = SubResource("RectangleShape2D_nkesr")
+
+[node name="line" type="Line2D" parent="bottom_wall"]
+points = PackedVector2Array(0, -20, 1152, -20)
+width = 1.0
+default_color = Color(0.259813, 0.259813, 0.259813, 1)
+
+[node name="ui" type="CanvasLayer" parent="."]
+script = ExtResource("1_k52ik")
+
+[node name="scores" type="Control" parent="ui"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 37.0
+offset_right = -37.0
+grow_horizontal = 2
+
+[node name="Player1Score" type="RichTextLabel" parent="ui/scores"]
+layout_mode = 1
+offset_right = 100.0
+offset_bottom = 40.0
+bbcode_enabled = true
+text = "Player1: 0"
+scroll_active = false
+
+[node name="Player2Score" type="RichTextLabel" parent="ui/scores"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 40.0
+grow_horizontal = 0
+bbcode_enabled = true
+text = "Player2: 0"
+scroll_active = false
+
+[node name="menu" type="Control" parent="ui"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="ui/menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14902, 0.14902, 0.14902, 0.47451)
+
+[node name="buttons" type="VBoxContainer" parent="ui/menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -148.0
+offset_top = -59.0
+offset_right = 148.0
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 18
+
+[node name="resume" type="Button" parent="ui/menu/buttons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Resume"
+
+[node name="quit" type="Button" parent="ui/menu/buttons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Quit"
+
+[node name="bat1" type="Area2D" parent="."]
+position = Vector2(80, 324)
+script = ExtResource("2_qmjbk")
+
+[node name="polygon" type="Polygon2D" parent="bat1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bat1"]
+shape = SubResource("RectangleShape2D_838rd")
+
+[node name="bat2" type="Area2D" parent="."]
+position = Vector2(1072, 324)
+script = ExtResource("2_qmjbk")
+
+[node name="polygon" type="Polygon2D" parent="bat2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bat2"]
+shape = SubResource("RectangleShape2D_838rd")
+
+[node name="ball" type="CharacterBody2D" parent="."]
+position = Vector2(576, 323)
+motion_mode = 1
+script = ExtResource("4_b88d5")
+
+[node name="Polygon2D" type="Polygon2D" parent="ball"]
+polygon = PackedVector2Array(-12, -12, 12, -12, 12, 12, -12, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ball"]
+shape = SubResource("RectangleShape2D_qqa34")
+disabled = true
+
+[node name="RayCast2D" type="RayCast2D" parent="ball"]
+target_position = Vector2(0, 0)
+collide_with_areas = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
